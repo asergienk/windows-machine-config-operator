@@ -29,6 +29,17 @@ spec:
     value: 5d
   - name: dockerfile
     value: Dockerfile
+  workspaces:
+    - name: workspace
+      volumeClaimTemplate:
+        metadata:
+          creationTimestamp: null
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
   pipelineSpec:
     description: |
       This pipeline is ideal for building container images from a Containerfile while reducing network traffic.
@@ -192,16 +203,6 @@ spec:
         workspace: workspace
       - name: basic-auth
         workspace: git-auth
-      - name: workspace
-        volumeClaimTemplate:
-          metadata:
-            creationTimestamp: null
-          spec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 1Gi
     - name: prefetch-dependencies
       params:
       - name: input
